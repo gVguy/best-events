@@ -1,6 +1,6 @@
 # events-ts
 
-Type-enabled event machine
+Tiny strict-type-enabled event machine
 
 ## Why
 
