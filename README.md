@@ -1,6 +1,6 @@
 # events-ts
 
-Typecheck-enabled event machine
+Type-enabled event machine
 
 ## Why
 

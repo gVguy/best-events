@@ -1,7 +1,7 @@
 {
   "name": "events-ts",
   "version": "1.0.0",
-  "description": "Lets you strictly type your events and only fire and listen for events with specified names and sets of arguments",
+  "description": "Type-enabled event machine",
   "main": "dist/events-ts.js",
   "browser": "dist/events-ts.esm.js",
   "module": "dist/events-ts.esm.js",
