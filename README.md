@@ -21,6 +21,7 @@ const Events = require('events-ts')
 const events = new Events<{
   hello: (name: string) => void
   math: (a: number, b: number) => void
+  suspence: () => Promise<void>
 }>()
 
 // ✅ OK
@@ -30,6 +31,13 @@ events.fire('hello', 'world')
 // ✅ OK
 events.on('math', (a, b) => console.log(a + b))
 events.fire('math', 1, 2)
+
+// ✅ OK - ASYNC
+events.on('suspence', async () => {
+  await new Promise(res => setTimeout(res, 1000))
+  console.log('bam')
+})
+events.fire('suspence')
 
 // ❌ WRONG ARGUMENT TYPE
 // Argument of type 'number' is not assignable to parameter of type 'string'
