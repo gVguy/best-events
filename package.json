@@ -1,11 +1,11 @@
 {
-  "name": "events-ts",
+  "name": "best-events",
   "version": "1.0.0",
   "description": "Tiny strict-type-enabled event machine",
-  "main": "dist/events-ts.js",
-  "browser": "dist/events-ts.esm.js",
-  "module": "dist/events-ts.esm.js",
-  "types": "dist/events-ts.d.ts",
+  "main": "dist/best-events.js",
+  "browser": "dist/best-events.esm.js",
+  "module": "dist/best-events.esm.js",
+  "types": "dist/best-events.d.ts",
   "files": [
     "dist"
   ],

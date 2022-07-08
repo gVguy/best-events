@@ -10,7 +10,7 @@ import del from 'rollup-plugin-delete'
 import { deleteEmptyFoldersRecursive } from './utils/delete-empty-folders-recursive'
 
 const ENTRY = 'src/main.ts'
-const OUT_FILE_NAME = 'events-ts'
+const OUT_FILE_NAME = 'best-events'
 const OUT_DIR = 'dist'
 
 const {

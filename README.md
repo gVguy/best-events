@@ -1,6 +1,6 @@
-# events-ts
+# best-events
 
-Tiny strict-type-enabled event machine
+Tiny strict-type-enabled event machine (esm & cjs)
 
 ## Why
 
@@ -8,12 +8,12 @@ Lets you strictly type your events and only fire and listen for events with spec
 
 ## Installation
 ```
-npm i events-ts
+npm i best-events
 ```
 ```js
-import { Events } from 'events-ts'
+import { Events } from 'best-events'
 // or
-const Events = require('events-ts')
+const Events = require('best-events')
 ```
 
 ## Usage
