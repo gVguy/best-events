@@ -1,22 +1,64 @@
-# rollup-ts-boilerplate
+# events-ts
 
-An environment to kickstart ts library creation
+Typecheck-enabled event machine
 
-## How to use
-`npm run dev` to serve demo page.  
-Scripts for this page will be bundled from `/demo/demo.ts`, where the library is imported.  
-Live reloading enabled.
+## Why
 
-`npm run build` to build your library.  
-By default, output files will go to `/dist/` folder in project root.  
-By default, source code will be bundled to 3 formats: iife, cjs and esm.  
-Type definitions will be emitted and bundled alongside the main bundle.  
-`package.json` will be automaticlly updated with the filenames of build output.
+Lets you strictly type your events and only fire and listen for events with specified names and sets of arguments
 
-## How to get started
-- clone this repo
-- whipe everything from the `/src/` directory
-- customize your library with constants in `/rollup.config.js` in project root
-- write some source code in `/src/`
-- remove sample code from `/demo/demo.ts` and import your library
-- `npm run dev`
+## Installation
+```
+npm i events-ts
+```
+```js
+import { Events } from 'events-ts'
+// or
+const Events = require('events-ts')
+```
+
+## Usage
+```ts
+const events = new Events<{
+  hello: (name: string) => void
+  math: (a: number, b: number) => void
+}>()
+
+// ✅ OK
+events.on('hello', (name) => console.log('hello ' + name))
+events.fire('hello', 'world')
+
+// ✅ OK
+events.on('math', (a, b) => console.log(a + b))
+events.fire('math', 1, 2)
+
+// ❌ WRONG ARGUMENT TYPE
+// Argument of type 'number' is not assignable to parameter of type 'string'
+events.fire('hello', 1)
+
+// ❌ NOT ENOUGH ARGUMENTS
+// error: Expected 3 arguments, but got 2
+events.fire('math', 1)
+
+// ❌ TOO MUCH ARGUMENTS
+// error: Argument of type '(name: any, lastName: any) => void' is not assignable to parameter of type '(name: string) => void'
+events.on('hello', (name, lastName) => console.log('hello ' + name + lastName))
+
+// ❌ UNKNOWN EVENT
+// error: Argument of type '"howdy"' is not assignable to parameter of type '"hello" | "math"'
+events.fire('howdy', 'world')
+
+// ❌ WRONG TYPE IN LISTENER
+// error: Property 'push' does not exist on type 'number'
+events.on('math', (a, b) => a.push(b))
+```
+
+## Usage without TS
+
+Also supported but discouraged
+```js
+const events = new Events()
+
+events.on('hello', (name) => console.log('hello ' + name))
+
+events.fire('hello', 'world')
+```

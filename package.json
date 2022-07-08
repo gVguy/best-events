@@ -1,11 +1,14 @@
 {
-  "name": "my-library",
+  "name": "events-ts",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/my-library.js",
-  "browser": "dist/my-library.esm.js",
-  "module": "dist/my-library.esm.js",
-  "unpkg": "dist/my-library.min.js",
+  "description": "Lets you strictly type your events and only fire and listen for events with specified names and sets of arguments",
+  "main": "dist/events-ts.js",
+  "browser": "dist/events-ts.esm.js",
+  "module": "dist/events-ts.esm.js",
+  "types": "dist/events-ts.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c demo/rollup.config.js -w",
@@ -25,6 +28,5 @@
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.31.2"
-  },
-  "types": "dist/my-library.d.ts"
+  }
 }

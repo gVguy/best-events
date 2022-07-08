@@ -1,6 +1,5 @@
 import typescript from 'rollup-plugin-typescript2';
 import babel from '@rollup/plugin-babel'
-import { terser } from 'rollup-plugin-terser'
 import resolve from '@rollup/plugin-node-resolve'
 import alias from '@rollup/plugin-alias'
 import packageJson from './package.json'
@@ -11,8 +10,7 @@ import del from 'rollup-plugin-delete'
 import { deleteEmptyFoldersRecursive } from './utils/delete-empty-folders-recursive'
 
 const ENTRY = 'src/main.ts'
-const OUT_FILE_NAME = 'my-library'
-const IIFE_NAME = 'myLibrary'
+const OUT_FILE_NAME = 'events-ts'
 const OUT_DIR = 'dist'
 
 const {
@@ -26,8 +24,8 @@ packageJson.name = OUT_FILE_NAME
 packageJson.main = `${OUT_DIR}/${OUT_FILE_NAME}.js`
 packageJson.browser = `${OUT_DIR}/${OUT_FILE_NAME}.esm.js`
 packageJson.module = `${OUT_DIR}/${OUT_FILE_NAME}.esm.js`
-packageJson.unpkg = `${OUT_DIR}/${OUT_FILE_NAME}.min.js`
 packageJson.types = `${OUT_DIR}/${OUT_FILE_NAME}.d.ts`
+packageJson.files = [OUT_DIR]
 fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2))
 
 // CLEAN OUT DIR BEFORE BUILD
@@ -87,21 +85,6 @@ const esm = {
   plugins
 }
 
-// iife
-const iife = {
-  input: ENTRY,
-  output: {
-    compact: true,
-    file: `${OUT_DIR}/${OUT_FILE_NAME}.min.js`,
-    format: 'iife',
-    name: IIFE_NAME
-  },
-  plugins: [
-    ...plugins,
-    terser({ output: { ecma: 5 } })
-  ]
-}
-
 // BUNDLE TYPE DEFINITIONS
 
 const cleanup = (dir) => ({
@@ -130,6 +113,5 @@ const dts = {
 export default [
   esm,
   cjs,
-  iife,
   dts
 ]
