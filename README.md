@@ -41,19 +41,19 @@ events.fire('suspence')
 events.fire('hello', 1)
 
 // ❌ NOT ENOUGH ARGUMENTS
-// error: Expected 3 arguments, but got 2
+// Expected 3 arguments, but got 2
 events.fire('math', 1)
 
 // ❌ TOO MUCH ARGUMENTS
-// error: Argument of type '(name: any, lastName: any) => void' is not assignable to parameter of type '(name: string) => void'
+// Argument of type '(name: any, lastName: any) => void' is not assignable to parameter of type '(name: string) => void'
 events.on('hello', (name, lastName) => console.log('hello ' + name + lastName))
 
 // ❌ UNKNOWN EVENT
-// error: Argument of type '"howdy"' is not assignable to parameter of type '"hello" | "math"'
+// Argument of type '"howdy"' is not assignable to parameter of type '"hello" | "math"'
 events.fire('howdy', 'world')
 
 // ❌ WRONG TYPE IN LISTENER
-// error: Property 'push' does not exist on type 'number'
+// Property 'push' does not exist on type 'number'
 events.on('math', (a, b) => a.push(b))
 ```
 
