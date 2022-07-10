@@ -1,5 +1,4 @@
-
-export class Events<EventList extends { [key: string]: (...args: any[]) => unknown }> {
+export default class Events<EventList extends { [key: string]: (...args: any[]) => unknown }> {
 
   _events: EventArrays<EventList>
 

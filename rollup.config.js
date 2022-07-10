@@ -1,7 +1,4 @@
-import typescript from 'rollup-plugin-typescript2';
-import babel from '@rollup/plugin-babel'
-import resolve from '@rollup/plugin-node-resolve'
-import alias from '@rollup/plugin-alias'
+import typescript from 'rollup-plugin-typescript2'
 import packageJson from './package.json'
 import fs from 'fs'
 import path from 'path'
@@ -22,8 +19,7 @@ const {
 
 packageJson.name = OUT_FILE_NAME
 packageJson.main = `${OUT_DIR}/${OUT_FILE_NAME}.js`
-packageJson.browser = `${OUT_DIR}/${OUT_FILE_NAME}.esm.js`
-packageJson.module = `${OUT_DIR}/${OUT_FILE_NAME}.esm.js`
+packageJson.module = `${OUT_DIR}/${OUT_FILE_NAME}.js`
 packageJson.types = `${OUT_DIR}/${OUT_FILE_NAME}.d.ts`
 packageJson.files = [OUT_DIR]
 fs.writeFileSync('package.json', JSON.stringify(packageJson, null, 2))
@@ -34,19 +30,6 @@ fs.rmSync(OUT_DIR, { recursive: true, force: true })
 
 // PLUGNS CONFIG
 
-const aliasConfig = {
-  entries: [
-    { find: '@', replacement: path.resolve(__dirname, 'src') }
-  ]
-}
-
-const babelConfig = {
-  presets: ['@babel/preset-env'],
-  exclude: 'node_modules/**',
-  extensions: ['.js', '.ts'],
-  babelHelpers: 'bundled'
-}
-
 const typescriptConfig = {
   tsconfigOverride: {
     include: [`${entryDirname}/**/*.ts`, `${entryDirname}/**/*.tsx`]
@@ -56,30 +39,16 @@ const typescriptConfig = {
 // BASE PLUGINS FOR ALL OUTPUT FORMATS
 
 const plugins = [
-  resolve(),
-  alias(aliasConfig),
-  typescript(typescriptConfig),
-  babel(babelConfig)
+  typescript(typescriptConfig)
 ]
 
 // OUTPUT FORMATS
-
-// cjs
-const cjs = {
-  input: ENTRY,
-  output: {
-    compact: true,
-    file: `${OUT_DIR}/${OUT_FILE_NAME}.js`,
-    format: 'cjs'
-  },
-  plugins
-}
 
 // esm
 const esm = {
   input: ENTRY,
   output: {
-    file: `${OUT_DIR}/${OUT_FILE_NAME}.esm.js`,
+    file: `${OUT_DIR}/${OUT_FILE_NAME}.js`,
     format: 'esm',
   },
   plugins
@@ -100,7 +69,6 @@ const dts = {
     format: 'es'
   },
   plugins: [
-    alias(aliasConfig),
     dtsPlugin(),
     del({
       targets: `${OUT_DIR}/**/*.d.ts`,
@@ -112,6 +80,5 @@ const dts = {
 
 export default [
   esm,
-  cjs,
   dts
 ]

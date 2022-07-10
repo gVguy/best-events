@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Tiny strict-type-enabled event machine",
   "main": "dist/best-events.js",
-  "browser": "dist/best-events.esm.js",
-  "module": "dist/best-events.esm.js",
+  "module": "dist/best-events.js",
   "types": "dist/best-events.d.ts",
   "files": [
     "dist"

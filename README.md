@@ -1,6 +1,6 @@
 # best-events
 
-Tiny strict-type-enabled event machine (esm & cjs)
+Tiny strict-type-enabled event machine
 
 ## Why
 
@@ -10,14 +10,11 @@ Lets you strictly type your events and only fire and listen for events with spec
 ```
 npm i best-events
 ```
-```js
-import { Events } from 'best-events'
-// or
-const Events = require('best-events')
-```
 
 ## Usage
 ```ts
+import Events from 'best-events'
+
 const events = new Events<{
   hello: (name: string) => void
   math: (a: number, b: number) => void
@@ -64,6 +61,8 @@ events.on('math', (a, b) => a.push(b))
 
 Also supported but discouraged
 ```js
+import Events from 'best-events'
+
 const events = new Events()
 
 events.on('hello', (name) => console.log('hello ' + name))

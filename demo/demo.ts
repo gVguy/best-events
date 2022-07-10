@@ -1,4 +1,4 @@
-import { Events } from '../src/main'
+import Events from '../src/main'
 
 const events = new Events<{
   hello: (name: string) => void
