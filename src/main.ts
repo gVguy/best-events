@@ -24,6 +24,15 @@ export default class Events<EventList extends { [key: string]: (...args: any[]) 
     }
   }
 
+  offAll<E extends EventName<EventList>>(eventName: E) {
+    try {
+      if (!this._events[eventName]) throw `could not remove listeners for event \`${eventName as string}\` because event doesn't exist`
+      this._events[eventName] = []
+    } catch (e) {
+      console.warn(e)
+    }
+  }
+
   fire<E extends EventName<EventList>>(eventName: E, ...args: Parameters<EventList[E]>) {
     try {
       if (!this._events[eventName]) throw `event ${eventName as string} was fired but not a single listener is assigned`

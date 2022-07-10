@@ -57,6 +57,22 @@ events.fire('howdy', 'world')
 events.on('math', (a, b) => a.push(b))
 ```
 
+## Methods
+
+```ts
+// `on` to listen for event
+events.on(eventName, eventHandler)
+
+// `fire` to emit event
+events.fire(eventName)
+
+// `off` to remove a specific listener
+events.off(eventName, eventHandler)
+
+// `offAll` to remove all listeners
+events.offAll(eventName)
+```
+
 ## Usage without TS
 
 Also supported but discouraged
