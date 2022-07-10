@@ -1,6 +1,6 @@
 {
   "name": "best-events",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Tiny strict-type-enabled event machine",
   "main": "dist/best-events.js",
   "module": "dist/best-events.js",
