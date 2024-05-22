@@ -1,6 +1,6 @@
 # best-events
 
-Tiny strict-type-enabled event machine
+Tiny type-safe event machine
 
 ## Why
 
