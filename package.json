@@ -15,6 +15,7 @@
   },
   "author": "Ivan Che",
   "license": "ISC",
+  "repository": "https://github.com/gVguy/best-events",
   "devDependencies": {
     "@babel/preset-env": "^7.18.2",
     "@rollup/plugin-alias": "^3.1.9",

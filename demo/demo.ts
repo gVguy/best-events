@@ -3,27 +3,31 @@ import Events from '../src/main'
 const events = new Events<{
   hello: (name: string) => void
   math: (a: number, b: number) => void
-  suspence: () => Promise<void>
+}>()
+
+const events2 = new Events<{
+  hello: [name: string]
+  math: [number, number]
 }>()
 
 
-const helloHandler = (name: string) => console.log('hello ' + name)
+const onMath = (a: number, b: number) => console.log(a + b)
 
-events.on('hello', helloHandler)
+events.on('hello', (name) => console.log('hello ' + name))
 events.fire('hello', 'world')
 
-
-events.on('math', (a, b) => console.log(a + b))
+events.on('math', onMath)
 events.fire('math', 1, 2)
 
 
-events.on('suspence', async () => {
-  await new Promise(res => setTimeout(res, 1000))
-  console.log('bam')
-})
-events.fire('suspence')
+const offHello = events2.on('hello', (name) => console.log('hello ' + name))
+events2.fire('hello', 'world')
 
+events2.on('math', onMath)
+events2.fire('math', 1, 2)
 
-events.off('hello', helloHandler)
+offHello()
+events2.fire('hello', 'this should not print')
 
-events.fire('hello', 'friend') // shouldn't do anything, because listener was off'ed
+events2.off('math', onMath)
+events2.fire('math', 100, 100)

@@ -1,49 +1,51 @@
-export default class Events<EventList extends { [key: string]: (...args: any[]) => unknown }> {
+export default class Events<EventList extends EventListBase> {
 
-  _events: EventArrays<EventList>
+  private _events: EventArrays<EventList>
 
   constructor() {
     this._events = {} as EventArrays<EventList>
   }
 
-  on<E extends EventName<EventList>>(eventName: E, cb: EventList[E]) {
+  on<E extends EventName<EventList>>(eventName: E, cb: EventCallback<EventList, E>) {
     if (!this._events[eventName]) {
       this._events[eventName] = []
     }
     this._events[eventName].push(cb)
+    return () => this.off(eventName, cb)
   }
 
-  off<E extends EventName<EventList>>(eventName: E, cb: EventList[E]) {
-    try {
-      if (!this._events[eventName]) throw `could not remove listener for event \`${eventName as string}\` because event doesn't exist`
-      const idx = this._events[eventName].findIndex(c => c === cb)
-      if (idx < 0) throw `could not remove listener for event \`${eventName as string}\` because listener doesn't exist`
-      this._events[eventName].splice(idx, 1)
-    } catch (e) {
-      console.warn(e)
-    }
+  off<E extends EventName<EventList>>(eventName: E, cb: EventCallback<EventList, E>) {
+    if (!this._events[eventName]) return
+    const idx = this._events[eventName].findIndex(c => c === cb)
+    if (idx < 0) return
+    this._events[eventName].splice(idx, 1)
   }
 
   offAll<E extends EventName<EventList>>(eventName: E) {
-    try {
-      if (!this._events[eventName]) throw `could not remove listeners for event \`${eventName as string}\` because event doesn't exist`
-      this._events[eventName] = []
-    } catch (e) {
-      console.warn(e)
-    }
+    if (!this._events[eventName]) return
+    this._events[eventName] = []
   }
 
-  fire<E extends EventName<EventList>>(eventName: E, ...args: Parameters<EventList[E]>) {
-    try {
-      if (!this._events[eventName]) throw `event ${eventName as string} was fired but not a single listener is assigned`
-      this._events[eventName].forEach(cb => (cb as (...a: typeof args) => unknown)(...args))
-    } catch (e) {
-      console.warn(e)
-    }
+  fire<E extends EventName<EventList>>(eventName: E, ...args: Parameters<EventCallback<EventList, E>>) {
+    if (!this._events[eventName]) return
+    this._events[eventName].forEach(cb => (cb as (...a: typeof args) => unknown)(...args))
   }
 
 }
 
 
-type EventArrays<EventList> = { [key in keyof EventList]: EventList[key][] }
-type EventName<EventList> = keyof EventList
+type EventArrays<EventList extends EventListBase> = {
+  [E in keyof EventList]: EventCallback<EventList, E>[]
+}
+type EventName<EventList extends EventListBase> = keyof EventList
+
+type EventListCallbackNotation = Record<string, (...args: any[]) => unknown>
+type EventListArrayNotation = Record<string, any[]>
+type EventListBase = EventListCallbackNotation|EventListArrayNotation
+
+type EventCallback<EventList extends EventListBase, E extends keyof EventList> =
+  EventList extends EventListCallbackNotation
+    ? EventList[E]
+    : EventList extends EventListArrayNotation
+      ? (...args: EventList[E]) => void
+      : null
