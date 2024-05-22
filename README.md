@@ -13,7 +13,7 @@ npm i best-events
 
 ## Usage
 
-#### Import the class
+#### Import
 ```ts
 import Events from 'best-events'
 ```
